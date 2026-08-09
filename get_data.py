@@ -2,6 +2,7 @@ import requests
 from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 # Calculate dates
 today = datetime.now()
@@ -56,3 +57,32 @@ plt.tight_layout()
 plt.savefig('weather_chart.png')
 
 plt.show()
+
+#--------------CSV file----------------------
+
+# Create data folder if it doesn't exist
+if not os.path.exists('data'):
+    os.makedirs('data')
+
+# Save to CSV
+df.to_csv('data/paris_weather.csv', index=False)
+
+print("Data saved to data/paris_weather.csv")
+
+"""
+So your complete workflow is now becoming quite substantial:
+
+API
+ ↓
+JSON response
+ ↓
+Python dictionary: data
+ ↓
+Pandas DataFrame: df
+ ↓
+├── Matplotlib chart
+│
+└── CSV file
+
+That's a useful mini data pipeline — you're retrieving external data, transforming it, visualising it and saving it
+"""
