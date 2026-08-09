@@ -1,36 +1,37 @@
+# analyzer.py
 import pandas as pd
-import json
-import os
+from helpers import calculate_total, format_currency
 
-# Read the CSV file
+# Read data
 df = pd.read_csv('data/sales.csv')
 
-print("CSV Data:")
-print(df)
-print(f"\nShape: {df.shape[0]} rows, {df.shape[1]} columns")
+# Calculate total for each row
+totals = []
 
-# Quick operation: calculate total for each row
-df['total'] = df['quantity'] * df['price']
+for index, row in df.iterrows():
+    total = calculate_total(row['quantity'], row['price'])
+    totals.append(total)
 
-print("\nWith totals:")
-print(df)
+# Add totals to our data
+df['total'] = totals
 
-# Create output directory
-os.makedirs('output', exist_ok=True)
+# Display with formatted totals
+print("Sales Data:")
 
-# Save as different formats
+for index, row in df.iterrows():
+    formatted_total = format_currency(row['total'])
+    print(f"{row['product']}: {formatted_total}")
 
-# 1. JSON format (good for web APIs)
-df.to_json('output/sales_data.json', orient='records', indent=2)
+# Show grand total
+grand_total = df['total'].sum()
+formatted_grand_total = format_currency(grand_total)
 
-# 2. Excel format (good for sharing)
-df.to_excel('output/sales_data.xlsx', index=False)
+print(f"\nGrand Total: {formatted_grand_total}")
 
-# 3. Updated CSV (with our new total column)
-df.to_csv('output/sales_with_totals.csv', index=False)
-
-print("\nFiles saved:")
-print("- output/sales_data.json")
-print("- output/sales_data.xlsx")
-print("- output/sales_with_totals.csv")
+"""
+Larger AI applications work in exactly this way: 
+functionality gets separated into different files/modules 
+rather than putting an entire application into one 
+enormous Python file.
+"""
 
