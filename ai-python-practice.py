@@ -54,3 +54,44 @@ You have now encountered one of the basic mechanisms behind AI applications.
 
 #------------------LESSON 3 — Functions and AI Workflows----------------
 
+def create_prompt(topic):
+    prompt=f"Explain {topic} simply "
+    return prompt
+
+question = create_prompt("machine learning")
+print(question)
+'''
+"machine learning"
+       ↓
+create_prompt()
+       ↓
+topic
+       ↓
+f-string builds prompt
+       ↓
+return
+       ↓
+question
+       ↓
+print()
+
+The main lesson isn't really about printing. 
+It's passing information into a reusable function and 
+getting a transformed result back — in this case, turning a topic 
+into an AI-style prompt.'''
+
+def create_prompt(topic):
+    return f"Explain {topic} simply"
+
+topics = ["machine learning", "classification", "generative AI"]
+
+for topic in topics:
+    question = create_prompt(topic)
+    print(question)
+
+
+def create_exam_question(topic):
+    return f"Create an AI901 question about {topic}"
+
+question = create_exam_question ("machine learning")
+print(question)
