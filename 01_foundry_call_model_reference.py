@@ -508,3 +508,181 @@ Recognition = understand/transcribe speech.
         └─ Translation
            one language → another
 """
+
+#------------vision & Image --------------------
+"""
+                    IMAGES
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+ IMAGE UNDERSTANDING          IMAGE GENERATION
+        │                           │
+Look at an existing image      Create a new image
+and understand it              from a prompt
+        │                           │
+        ├─ Captioning               └─ Text → Image
+        ├─ Object detection
+        ├─ OCR/read text
+        └─ Image classification
+
+        """
+#nb: Classify the whole image → Image classification
+
+#Find individual objects + their locations → Object detection
+"""
+IMAGE CLASSIFICATION
+"What category is this whole image?"
+→ zebra
+
+OBJECT DETECTION
+"What objects are here AND where?"
+→ zebra at location X
+
+OCR
+"What written text is in this image?"
+→ "Invoice total: £375.20"
+
+IMAGE CAPTIONING
+"Describe what is happening in this image."
+→ "A zebra standing beside a tree."
+"""
+
+#-----Can AI turn unstructured content into useful structured information?-----
+poller = content_client.begin_analyze(
+    analyzer_id="my-custom-invoice-analyzer",
+    data=open("invoice.pdf", "rb")
+)
+
+result = poller.result()
+
+invoice.pdf
+    ↓
+begin_analyze(...)
+
+"""
+"Analyse this content"
+    ↓
+analyzer_id
+"What information am I trying to extract?"
+    ↓
+processing takes some time
+    ↓
+poller
+"the analysis job is running"
+    ↓
+.result()
+"give me the completed result"
+    ↓
+structured information
+
+"""
+
+#------Responsible AI -------------------
+
+"""
+FAIRNESS
+"Does the system treat different groups fairly?"
+
+RELIABILITY & SAFETY
+"Does it work reliably without causing harm?"
+
+PRIVACY & SECURITY
+"Are people's data and the system protected?"
+
+INCLUSIVENESS
+"Can people with different needs and abilities use it?"
+
+TRANSPARENCY
+"Do people understand that AI is being used
+ and what its limitations are?"
+
+ACCOUNTABILITY
+"Who is ultimately responsible for this system?"
+"""
+#---performing inference---asking model a question!---
+
+#---The 'tokens' unit is commonly used to measure the amount of text processed by an LLM
+
+#-----------------EMBEDDINGS ---------
+
+"""
+Embeddings help computers compare meaning, not just matching words.
+
+And that connects directly to RAG:
+
+"Can I take unused holiday
+into next year?"
+        ↓
+Embedding represents meaning
+        ↓
+Semantic search
+        ↓
+Finds:
+"Employees may carry forward
+five days of annual leave."
+        ↓
+Relevant information retrieved
+        ↓
+LLM answers
+"""
+#-----------------TRANSFORMER ---------
+
+#A transformer is the neural-network architecture underlying 
+#modern LLMs. One of its crucial ideas is attention — allowing the model 
+#to consider relationships between different parts of its input.
+
+
+"""
+
+Transformer
+      ↓
+Neural-network architecture
+used by modern LLMs
+      ↓
+Attention helps model relationships
+between parts of the input
+"""
+
+#------SDK recognition map---------
+
+"""
+For AI-901, keep this compact recognition map:
+
+DefaultAzureCredential
+→ AUTHENTICATION
+x
+chat.completions.create
+→ GENERATE a model response
+
+messages / role / content
+→ PROMPT / CONVERSATION
+
+choices[0].message.content
+→ GET generated text
+
+embeddings.create
+→ CREATE numerical meaning representation
+
+SpeechRecognizer / recognize...
+→ SPEECH → TEXT
+
+SpeechSynthesizer / speak_text...
+→ TEXT → SPEECH
+
+VisualFeatures.CAPTION
+→ DESCRIBE an image
+
+begin_analyze / poller.result()
+→ CONTENT UNDERSTANDING
+
+create_agent
+→ CREATE an agent
+
+instructions
+→ CONTROL agent behaviour
+
+tools
+→ GIVE agent capabilities
+
+That's a far better revision sheet for you than a generic Python course.
+"""
